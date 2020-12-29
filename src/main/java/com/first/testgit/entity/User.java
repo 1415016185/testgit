@@ -1,15 +1,20 @@
 package com.first.testgit.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
-public class User implements Serializable {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class User  {
     private Integer id;
 
     private String username;
 
     private String password;
-
-    private static final long serialVersionUID = 1L;
 
     public Integer getId() {
         return id;
@@ -44,7 +49,6 @@ public class User implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", username=").append(username);
         sb.append(", password=").append(password);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
     }

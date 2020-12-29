@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class RedisServiceImpl implements RedisService {
-
+/*
     @Autowired
     RedisTemplate redisTemplate;
 
@@ -39,9 +39,6 @@ public class RedisServiceImpl implements RedisService {
         for (Object s : redisTemplate.keys(key)) {
             // 过滤掉权限的缓存
             if (s.toString().indexOf("role::loadPermissionByUser") != -1
-                    || s.toString().indexOf("user::loadUserByUsername") != -1
-                    || s.toString().indexOf("wechat") != -1
-                    || s.toString().indexOf("wxpay") != -1
                     ) {
                 continue;
             }
@@ -83,5 +80,5 @@ public class RedisServiceImpl implements RedisService {
     public void saveCode(String key, Object val) {
         redisTemplate.opsForValue().set(key,val);
         redisTemplate.expire(key,expiration, TimeUnit.MINUTES);
-    }
+    }*/
 }

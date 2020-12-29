@@ -1,6 +1,17 @@
 server:
   port: 8888
 spring:
+  redis:
+    lettuce:
+      pool:
+        max-wait: 100ms
+        max-active: 200
+        max-idle: 10
+        min-idle: -1
+    host: localhost
+    port: 6379
+    password:
+    timeout: 1000ms
   datasource:
     username: root
     password: 123456
@@ -18,3 +29,11 @@ task:
     keep-alive-seconds: 60
     # 队列容量
     queue-capacity: 50
+
+#邮箱验证码有效时间/分钟
+code:
+  expiration: 5
+
+#登录图形验证码有效时间/分钟
+loginCode:
+  expiration: 2
