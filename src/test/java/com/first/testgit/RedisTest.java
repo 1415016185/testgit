@@ -10,6 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author:jiaxingxu
@@ -52,6 +57,23 @@ public class RedisTest
         System.out.println(s);
         redisTemplate.opsForValue().set("user",user);
         System.out.println(redisTemplate.opsForValue().get("user"));
+
+    }
+
+    @Test
+    void  testNoxee(){
+        //设置初始值
+        LinkedHashMap<Object, Object> objectObjectHashMap = new LinkedHashMap<>(15);
+        for (int i = 0; i < 10; i++) {
+            objectObjectHashMap.put("test"+i,i);
+        }
+        for (Map.Entry<Object, Object> objectObjectEntry : objectObjectHashMap.entrySet()) {
+            System.out.println(objectObjectEntry.getKey());
+            System.out.println(objectObjectEntry.getValue());
+
+        }
+        redisTemplate.opsForValue().multiSet(objectObjectHashMap);
+
 
     }
 }

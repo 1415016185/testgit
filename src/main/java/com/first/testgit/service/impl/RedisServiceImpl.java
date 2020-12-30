@@ -5,6 +5,7 @@ import com.first.testgit.service.RedisService;
 import com.first.testgit.utils.PageUtil;
 import com.first.testgit.vo.RedisVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,9 +25,10 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class RedisServiceImpl implements RedisService {
-/*
+
     @Autowired
-    RedisTemplate redisTemplate;
+    @Qualifier("myRedisTemplate")
+    private RedisTemplate redisTemplate;
 
     @Value("${loginCode.expiration}")
     private Long expiration;
@@ -36,9 +39,11 @@ public class RedisServiceImpl implements RedisService {
         if(!"*".equals(key)){
             key = "*" + key + "*";
         }
+        Set keys = redisTemplate.keys(key);
+
         for (Object s : redisTemplate.keys(key)) {
-            // 过滤掉权限的缓存
-            if (s.toString().indexOf("role::loadPermissionByUser") != -1
+            // 过滤掉权限的缓存  包含x就跳过
+            if (s.toString().indexOf("v") != -1
                     ) {
                 continue;
             }
@@ -46,6 +51,9 @@ public class RedisServiceImpl implements RedisService {
             if(!"string".equals(dataType.code())) {
                 continue;
             }
+            System.out.println( redisTemplate.opsForValue().get(s));
+
+
             RedisVo redisVo = new RedisVo(s.toString(),redisTemplate.opsForValue().get(s.toString()).toString());
             redisVos.add(redisVo);
         }
@@ -80,5 +88,5 @@ public class RedisServiceImpl implements RedisService {
     public void saveCode(String key, Object val) {
         redisTemplate.opsForValue().set(key,val);
         redisTemplate.expire(key,expiration, TimeUnit.MINUTES);
-    }*/
+    }
 }
