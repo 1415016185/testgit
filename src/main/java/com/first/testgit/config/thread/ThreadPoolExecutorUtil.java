@@ -6,6 +6,12 @@
 package com.first.testgit.config.thread;
 
 
+import com.first.testgit.utils.SpringContextHolder;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 /**
  * 用于获取自定义线程池
  * @author hupeng
@@ -13,7 +19,7 @@ package com.first.testgit.config.thread;
  */
 
 public class ThreadPoolExecutorUtil {
-/*
+
     public static ThreadPoolExecutor getPoll(){
         AsyncTaskProperties properties = SpringContextHolder.getBean(AsyncTaskProperties.class);
         return new ThreadPoolExecutor(
@@ -24,5 +30,5 @@ public class ThreadPoolExecutorUtil {
                 new ArrayBlockingQueue<>(properties.getQueueCapacity()),
                 new TheadFactoryName()
         );
-    }*/
+    }
 }

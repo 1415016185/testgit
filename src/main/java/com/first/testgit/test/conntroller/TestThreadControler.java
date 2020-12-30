@@ -1,7 +1,9 @@
 package com.first.testgit.test.conntroller;
 
 
+import com.first.testgit.config.thread.ThreadPoolExecutorUtil;
 import com.first.testgit.service.RedisService;
+import com.first.testgit.vo.RedisVo;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sound.midi.Soundbank;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -65,6 +69,34 @@ public class TestThreadControler {
     }
 
 
+
+    @DeleteMapping(value = "/redis")
+    public ResponseEntity delete(@RequestBody RedisVo resources){
+        redisService.delete(resources.getKey());
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /**
+     * 测试线程池创建线程
+     */
+    @GetMapping(value = "/se")
+    public String se(){
+        for (int i = 0; i < 5; i++) {
+            ThreadPoolExecutorUtil.getPoll().execute(new threadRunnable());
+        }
+        return "hrrrr";
+    }
+
+
+    static class threadRunnable implements  Runnable{
+        @Override
+        public void run() {
+            Date date = new Date();
+            String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+            SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+            System.out.println(sdf.format(date)+"我是线程"+Thread.currentThread().getName());
+        }
+    }
 
 
 }
