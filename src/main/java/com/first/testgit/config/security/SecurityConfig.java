@@ -26,9 +26,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //加密
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encode = bCryptPasswordEncoder.encode("123");
-
-
-
         //放入内存中 设置用户名密码和角色
         auth.inMemoryAuthentication().withUser("pb").password(encode).roles("npy");
     }

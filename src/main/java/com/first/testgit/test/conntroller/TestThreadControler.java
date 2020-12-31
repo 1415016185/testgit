@@ -44,6 +44,20 @@ public class TestThreadControler {
         System.out.println(Thread.currentThread().getName());
     }
 
+    @PostMapping("/hello")
+    String  hello(){
+       return "hello";
+    }
+
+    @PostMapping("/test")
+    void   test(){
+
+    }
+
+
+
+
+
 
     /**
      * 前端传参page 和 size get请求
