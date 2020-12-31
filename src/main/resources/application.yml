@@ -27,13 +27,13 @@ spring:
 task:
   pool:
     # 核心线程池大小
-    core-pool-size: 10
+    core-pool-size: 2
     # 最大线程数
-    max-pool-size: 30
+    max-pool-size: 4
     # 活跃时间
     keep-alive-seconds: 60
     # 队列容量
-    queue-capacity: 50
+    queue-capacity: 5
 
 #邮箱验证码有效时间/分钟
 code:

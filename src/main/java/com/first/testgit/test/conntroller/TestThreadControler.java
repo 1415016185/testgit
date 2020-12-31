@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.sound.midi.Soundbank;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 /**
@@ -81,7 +83,7 @@ public class TestThreadControler {
      */
     @GetMapping(value = "/se")
     public String se(){
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 7; i++) {
             ThreadPoolExecutorUtil.getPoll().execute(new threadRunnable());
         }
         return "hrrrr";
@@ -89,14 +91,47 @@ public class TestThreadControler {
 
 
     static class threadRunnable implements  Runnable{
+        private  String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+        threadRunnable(String name) {
+            this.name = name;
+        }
+        threadRunnable() {}
+
+
         @Override
         public void run() {
-            Date date = new Date();
-            String strDateFormat = "yyyy-MM-dd HH:mm:ss";
-            SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
-            System.out.println(sdf.format(date)+"我是线程"+Thread.currentThread().getName());
+            try {
+                System.out.println(Thread.currentThread().getName() + "is running!");
+            /*    Date date = new Date();
+                String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+                System.out.println(sdf.format(date)+"我是线程"+Thread.currentThread().getName());*/
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
 
+    public static class MyIgnorePolicy implements RejectedExecutionHandler {
+        @Override
+        public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+            doLog(r, e);
+        }
+        private void doLog(Runnable r, ThreadPoolExecutor e) {
+            // 可做日志记录等
+            System.err.println( r.toString() + " rejected");
+//          System.out.println("completedTaskCount: " + e.getCompletedTaskCount());
+        }
+    }
 }

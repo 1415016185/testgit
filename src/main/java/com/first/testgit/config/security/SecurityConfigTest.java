@@ -1,9 +1,12 @@
 package com.first.testgit.config.security;
 
+import com.first.testgit.service.impl.MyUserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -13,17 +16,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SecurityConfigTest  extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private MyUserDetailsServiceImpl userDetailsService;
     /**
      *用auth设置用户名密码
      * @date 2020/12/30 16:07
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //加密
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String encode = bCryptPasswordEncoder.encode("123");
-        //放入内存中 设置用户名密码和角色
-        auth.inMemoryAuthentication().withUser("pb").password(encode).roles("npy");
+        auth.userDetailsService(userDetailsService).passwordEncoder(getPassWord());
     }
 
     @Bean
