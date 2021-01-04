@@ -36,16 +36,23 @@ public class SecurityConfigTest  extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //配置没有权限访问跳转自定义页面
+        http.exceptionHandling().accessDeniedPage("/demo/demo.html");
         http.formLogin()
                 //自定义自己编写的登录页面
                 .loginPage("/demo/testlogin.html")
                 //登录页面设置
                 .loginProcessingUrl("/user/login")
                 //登录访问路径
-                .successForwardUrl("/test/hello").permitAll()
+                .successForwardUrl("/test/test").permitAll()
                 .and().authorizeRequests()
                 //这些默认不用考虑 就能直接访问
-                .antMatchers("/","/user/login").permitAll()
+            //    .antMatchers("/","/user/login").permitAll()
+                //当前登录用户，只有具有admins权限才可以访问这个路径  这个只有一个
+             //   .antMatchers("/test/hello").hasAuthority("admins")
+                //2 hasAnyAuthority方法  可以有多个
+                .antMatchers("/test/hello").hasAnyAuthority("admins")
+
                 .and().csrf().disable();
         super.configure(http);
     }

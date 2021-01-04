@@ -36,7 +36,7 @@ public class TestThreadControler {
      * @param   @param:[pageable]
      * @return void
      */
-    @PostMapping("/thread")
+    @RequestMapping("/thread")
     @Async
     void  testThread(Pageable pageable){
         System.out.println(pageable.getPageNumber());
@@ -44,14 +44,14 @@ public class TestThreadControler {
         System.out.println(Thread.currentThread().getName());
     }
 
-    @PostMapping("/hello")
+    @GetMapping("/hello")
     String  hello(){
        return "hello";
     }
 
-    @PostMapping("/test")
-    void   test(){
-
+    @RequestMapping("/test")
+    String   test(){
+        return "TEST";
     }
 
 
