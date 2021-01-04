@@ -36,6 +36,11 @@ public class SecurityConfigTest  extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        //退出
+        http.logout().logoutUrl("/logout").
+                logoutSuccessUrl("/test/hello").permitAll();
+
         //配置没有权限访问跳转自定义页面
         http.exceptionHandling().accessDeniedPage("/demo/demo.html");
         http.formLogin()
@@ -44,7 +49,8 @@ public class SecurityConfigTest  extends WebSecurityConfigurerAdapter {
                 //登录页面设置
                 .loginProcessingUrl("/user/login")
                 //登录访问路径
-                .successForwardUrl("/test/test").permitAll()
+               //.successForwardUrl("/test/hello").permitAll()
+                .defaultSuccessUrl("/demo/success.html",true).permitAll()
                 .and().authorizeRequests()
                 //这些默认不用考虑 就能直接访问
             //    .antMatchers("/","/user/login").permitAll()

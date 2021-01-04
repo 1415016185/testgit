@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sound.midi.Soundbank;
@@ -44,14 +46,17 @@ public class TestThreadControler {
         System.out.println(Thread.currentThread().getName());
     }
 
-    @GetMapping("/hello")
+    @RequestMapping("/hello")
     String  hello(){
        return "hello";
     }
 
+    //支持多个和一个
     @RequestMapping("/test")
+    //@Secured("ROLE_normal")
+    @PostAuthorize("hasAnyAuthority('admins')")
     String   test(){
-        return "TEST";
+        return "TEST  @@22@22";
     }
 
 
@@ -95,7 +100,7 @@ public class TestThreadControler {
     /**
      * 测试线程池创建线程
      */
-    @GetMapping(value = "/se")
+    @RequestMapping(value = "/se")
     public String se(){
         for (int i = 0; i < 7; i++) {
             ThreadPoolExecutorUtil.getPoll().execute(new threadRunnable());
