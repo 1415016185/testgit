@@ -14,10 +14,26 @@
 <h1>表单提交</h1>
 <!-- 表单提交用户信息,注意字段的设置,直接是*{} -->
 <form action="/user/login"  method="post">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-    <input type="text" name="username" />
-    <input type="text" name="password" />
-    <input type="submit" />
+
+    <input
+            type="hidden" th:if="${_csrf}!=null" th:value="${_csrf.token}" name="_csrf
+"/>
+        <p>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username"/>
+        </p>
+        <p>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password"/>
+        </p>
+
+    <br>
+    <input type="checkbox" name="remember-me" title="记住密码"/>记住密码
+    <br/>
+
+    <button type="submit" class="btn">Log in</button>
+
+
 </form>
 </body>
 </html>

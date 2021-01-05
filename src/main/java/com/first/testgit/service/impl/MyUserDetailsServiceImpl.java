@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author:jiaxingxu
@@ -39,6 +40,8 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
         //加上权限 权限用逗号隔开
 
         List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList("abc,ROLE_normal");
+
+        List<String> collect = auths.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
         //权限不能为空
         return new User(user.getUsername(), new BCryptPasswordEncoder().encode(user.getPassword()),auths);
     }

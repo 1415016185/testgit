@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
 <body>
     登录成功！
+    <a href="/logout">退出</a>
+    <input
+            type="hidden" th:if="${_csrf}!=null" th:value="${_csrf.token}" name="_csrf
+"/>
 </body>
 </html>

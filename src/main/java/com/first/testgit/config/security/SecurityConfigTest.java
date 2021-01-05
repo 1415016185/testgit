@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 /**
  * @author:jiaxingxu
@@ -19,6 +23,17 @@ public class SecurityConfigTest  extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private MyUserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private DataSource dataSource;
+
+    //配置对象
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        //jdbcTokenRepository.setCreateTableOnStartup(true);
+        return jdbcTokenRepository;
+    }
     /**
      *用auth设置用户名密码
      * @date 2020/12/30 16:07
@@ -44,13 +59,13 @@ public class SecurityConfigTest  extends WebSecurityConfigurerAdapter {
         //配置没有权限访问跳转自定义页面
         http.exceptionHandling().accessDeniedPage("/demo/demo.html");
         http.formLogin()
-                //自定义自己编写的登录页面
-                .loginPage("/demo/testlogin.html")
+                //自定义自己编写的登录页面 登录页所有人都能访问
+                .loginPage("/demo/testlogin.html").permitAll()
                 //登录页面设置
                 .loginProcessingUrl("/user/login")
                 //登录访问路径
                //.successForwardUrl("/test/hello").permitAll()
-                .defaultSuccessUrl("/demo/success.html",true).permitAll()
+                .defaultSuccessUrl("/test/hello",true).permitAll()
                 .and().authorizeRequests()
                 //这些默认不用考虑 就能直接访问
             //    .antMatchers("/","/user/login").permitAll()
@@ -59,7 +74,13 @@ public class SecurityConfigTest  extends WebSecurityConfigurerAdapter {
                 //2 hasAnyAuthority方法  可以有多个
                 .antMatchers("/test/hello").hasAnyAuthority("admins")
 
-                .and().csrf().disable();
+                .and().rememberMe().tokenRepository(persistentTokenRepository())
+                //设置有效时长，单位秒
+                .tokenValiditySeconds(60)
+                //查询数据库
+                .userDetailsService(userDetailsService);
+       http.csrf().disable();
+
         super.configure(http);
     }
 }
