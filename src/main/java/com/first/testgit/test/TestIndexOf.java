@@ -8,5 +8,6 @@ public class TestIndexOf {
     public static void main(String[] args) {
         String test="abc";
         System.out.println(test.indexOf("v")!=-1);
+        System.out.println(test.contains("v"));
     }
 }

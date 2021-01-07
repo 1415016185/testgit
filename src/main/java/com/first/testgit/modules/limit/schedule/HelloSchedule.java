@@ -1,6 +1,6 @@
-package com.first.testgit.modules.quartz.schedule;
+package com.first.testgit.modules.limit.schedule;
 
-import com.first.testgit.modules.quartz.job.HelloJob;
+import com.first.testgit.modules.limit.job.HelloJob;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -18,13 +18,14 @@ public class HelloSchedule {
         JobDetail build = JobBuilder.newJob(HelloJob.class)
                 .withIdentity("name1", "group1")
                 .usingJobData("message","我是jobdetail")
+                .usingJobData("count",0)
                 .build();
         //触发器
         SimpleTrigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity("trigger1", "group1")
                 .startNow()
                 .usingJobData("message","我是触发器")
-                .withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(30)).build();
+                .withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(5)).build();
         //让调度器关联 触发器和任务
         defaultScheduler.scheduleJob(build,trigger);
         defaultScheduler.start();

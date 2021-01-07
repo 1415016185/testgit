@@ -3,6 +3,7 @@ package com.first.testgit.test.conntroller;
 
 import com.first.testgit.config.thread.ThreadPoolExecutorUtil;
 import com.first.testgit.service.RedisService;
+import com.first.testgit.utils.anno.Limit;
 import com.first.testgit.vo.RedisVo;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ public class TestThreadControler {
 
     //支持多个和一个
     @RequestMapping("/test")
+    @Limit(key = "test", period = 60, count = 10, name = "testLimit", prefix = "limit")
     //@Secured("ROLE_normal")
     @PostAuthorize("hasAnyAuthority('admins')")
     String   test(){
