@@ -2,20 +2,23 @@ package com.first.testgit.test.conntroller;
 
 
 import com.first.testgit.config.thread.ThreadPoolExecutorUtil;
+import com.first.testgit.modules.limitliu.LimitType;
 import com.first.testgit.service.RedisService;
 import com.first.testgit.utils.anno.Limit;
 import com.first.testgit.vo.RedisVo;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PostAuthorize;
+/*import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;*/
 import org.springframework.web.bind.annotation.*;
 
 import javax.sound.midi.Soundbank;
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.RejectedExecutionHandler;
@@ -54,10 +57,14 @@ public class TestThreadControler {
 
     //支持多个和一个
     @RequestMapping("/test")
-    @Limit(key = "test", period = 60, count = 10, name = "testLimit", prefix = "limit")
+    @Limit(key = "test", period = 60, count = 2, name = "testLimit", prefix = "limit",limitType = LimitType.IP)
     //@Secured("ROLE_normal")
-    @PostAuthorize("hasAnyAuthority('admins')")
+    //@PostAuthorize("hasAnyAuthority('admins')")
     String   test(){
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = simpleDateFormat.format(date);
+        System.out.println(format);
         return "TEST  @@22@22";
     }
 
@@ -157,4 +164,8 @@ public class TestThreadControler {
 //          System.out.println("completedTaskCount: " + e.getCompletedTaskCount());
         }
     }
+
+
+
+
 }

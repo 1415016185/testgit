@@ -26,7 +26,7 @@ public class RedisTest
 
     //有重名的     @Qualifier
     @Autowired
-    @Qualifier("myRedisTemplate")
+  //  @Qualifier("myredisTemplate")
     private RedisTemplate redisTemplate;
 
     /*

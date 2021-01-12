@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisServiceImpl implements RedisService {
 
     @Autowired
-    @Qualifier("myRedisTemplate")
+    //@Qualifier("myRedisTemplate")
     private RedisTemplate redisTemplate;
 
     @Value("${loginCode.expiration}")

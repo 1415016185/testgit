@@ -57,11 +57,14 @@ public class LimitAspect {
         }
 
         ImmutableList<Object> keys = ImmutableList.of(StringUtils.join(limit.prefix(), "_", key, "_", request.getRequestURI().replaceAll("/","_")));
-
         String luaScript = buildLuaScript();
         RedisScript<Number> redisScript = new DefaultRedisScript<>(luaScript, Number.class);
+
+        System.out.println(limit.count()+limit.period());
+
+
         Number count = redisTemplate.execute(redisScript, keys, limit.count(), limit.period());
-        if (null != count && count.intValue() <= limit.count()) {
+        if ( null != count &&count.intValue() <= limit.count()) {
             logger.info("第{}次访问key为 {}，描述为 [{}] 的接口", count, keys, limit.name());
             return joinPoint.proceed();
         } else {
