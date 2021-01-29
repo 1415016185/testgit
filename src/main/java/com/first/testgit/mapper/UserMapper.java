@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserMapper  extends BaseMapper<User> {
+    @Override
     int insert(User record);
 
     int insertSelective(User record);

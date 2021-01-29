@@ -1,5 +1,10 @@
 package com.first.testgit.test;
 
+
+
+
+
+import javax.print.DocFlavor;
 import java.time.LocalDate;
 
 /**
@@ -13,5 +18,13 @@ public class TestIndexOf {
         System.out.println(test.contains("v"));
         LocalDate localDate = LocalDate.now();
         System.out.println(localDate);
+
+
+        String a ="fgh";
+        byte[] bytes = a.getBytes();
+        String s = new String(bytes);
+        System.out.println(s);
+
+
     }
 }

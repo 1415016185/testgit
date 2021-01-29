@@ -20,6 +20,20 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 
+#mybatis-plus:
+##测试
+#
+mybatis-plus:
+  check-config-location: true
+  configuration:
+    map-underscore-to-camel-case: false
+
+  type-handlers-package: com.first.testgit.config.handler
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: 1
+      logic-not-delete-value: 0
 
 task:
   pool:
@@ -39,3 +53,5 @@ code:
 
 loginCode:
   expiration: 2
+
+
